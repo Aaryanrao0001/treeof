@@ -1,62 +1,17 @@
 /**
- * Nodes.js - Message Node System
- * Handles creation and management of message nodes with emotion-based visuals
+ * Nodes.js - Message Inscription System
+ * Handles creation and management of message inscriptions on tree parts
+ * Messages appear as glowing inscriptions ON tree (not separate objects)
  */
 
 import * as THREE from 'three';
-import { getNodePosition } from '../utils/hash.js';
+import { getMessagePlacement } from '../utils/hash.js';
 
-// Emotion to visual mapping
-export const EMOTION_CONFIG = {
-  joy: {
-    color: 0x90EE90,
-    emissive: 0x4CAF50,
-    type: 'leaf',
-    geometry: 'icosahedron',
-    scale: 0.3
-  },
-  love: {
-    color: 0xFFB6C1,
-    emissive: 0xFF69B4,
-    type: 'blossom',
-    geometry: 'sphere',
-    scale: 0.35
-  },
-  sadness: {
-    color: 0xC0C0C0,
-    emissive: 0x808080,
-    type: 'droplet',
-    geometry: 'teardrop',
-    scale: 0.25
-  },
-  anger: {
-    color: 0x8B0000,
-    emissive: 0xFF0000,
-    type: 'bud',
-    geometry: 'cone',
-    scale: 0.28
-  },
-  confusion: {
-    color: 0xDDA0DD,
-    emissive: 0x9932CC,
-    type: 'curl',
-    geometry: 'torus',
-    scale: 0.25
-  },
-  secret: {
-    color: 0xFFD700,
-    emissive: 0xFFA500,
-    type: 'fruit',
-    geometry: 'dodecahedron',
-    scale: 0.35
-  },
-  excitement: {
-    color: 0xFFFF00,
-    emissive: 0xFFD700,
-    type: 'spark',
-    geometry: 'octahedron',
-    scale: 0.3
-  }
+// Unified golden glow config for all messages
+const MESSAGE_CONFIG = {
+  color: 0xffd700,      // Golden
+  emissive: 0xffa500,   // Orange-gold emissive
+  scale: 0.25
 };
 
 export class NodeSystem {
@@ -81,50 +36,40 @@ export class NodeSystem {
   }
   
   /**
-   * Create geometry based on emotion type
+   * Create geometry based on tree part (inscriptions on different parts)
    */
-  createGeometry(emotion) {
-    const config = EMOTION_CONFIG[emotion];
+  createGeometry(treePart) {
+    const scale = MESSAGE_CONFIG.scale;
     
-    switch (config.geometry) {
-      case 'icosahedron':
-        return new THREE.IcosahedronGeometry(config.scale, 1);
-      case 'sphere':
-        return new THREE.SphereGeometry(config.scale, 16, 16);
-      case 'teardrop':
-        // Custom teardrop using lathe
-        const teardropPoints = [];
-        for (let i = 0; i <= 10; i++) {
-          const t = i / 10;
-          const r = Math.sin(t * Math.PI) * 0.15 * (1 - t * 0.5);
-          teardropPoints.push(new THREE.Vector2(r, t * 0.4 - 0.2));
-        }
-        return new THREE.LatheGeometry(teardropPoints, 12);
-      case 'cone':
-        return new THREE.ConeGeometry(config.scale * 0.6, config.scale * 1.2, 8);
-      case 'torus':
-        return new THREE.TorusGeometry(config.scale * 0.6, config.scale * 0.2, 8, 16);
-      case 'dodecahedron':
-        return new THREE.DodecahedronGeometry(config.scale, 0);
-      case 'octahedron':
-        return new THREE.OctahedronGeometry(config.scale, 0);
+    switch (treePart) {
+      case 'trunk':
+        // Carved rune shape - flat panel for inscription
+        return new THREE.BoxGeometry(scale * 1.5, scale * 2, scale * 0.3);
+      case 'branch':
+        // Luminescent vein - elongated shape
+        return new THREE.CapsuleGeometry(scale * 0.3, scale * 1.2, 4, 8);
+      case 'leaf':
+        // Soft glowing leaf shape
+        return new THREE.SphereGeometry(scale, 8, 8);
+      case 'root':
+        // Surface inscription on root
+        return new THREE.TorusGeometry(scale * 0.6, scale * 0.2, 6, 12);
       default:
-        return new THREE.SphereGeometry(config.scale, 16, 16);
+        return new THREE.SphereGeometry(scale, 16, 16);
     }
   }
   
   /**
-   * Create material for a node
+   * Create unified golden glow material for inscriptions
    */
-  createMaterial(emotion) {
-    const config = EMOTION_CONFIG[emotion];
-    
+  createMaterial(glowIntensity = 1.0) {
     return new THREE.ShaderMaterial({
       uniforms: {
         time: { value: 0 },
-        baseColor: { value: new THREE.Color(config.color) },
-        emissiveColor: { value: new THREE.Color(config.emissive) },
+        baseColor: { value: new THREE.Color(MESSAGE_CONFIG.color) },
+        emissiveColor: { value: new THREE.Color(MESSAGE_CONFIG.emissive) },
         pulsePhase: { value: Math.random() * Math.PI * 2 },
+        glowIntensity: { value: glowIntensity },
         birthTime: { value: 0 },
         currentTime: { value: 0 }
       },
@@ -150,6 +95,7 @@ export class NodeSystem {
         uniform vec3 emissiveColor;
         uniform float time;
         uniform float pulsePhase;
+        uniform float glowIntensity;
         uniform float birthTime;
         uniform float currentTime;
         
@@ -161,21 +107,21 @@ export class NodeSystem {
           float birthDuration = 1.4;
           float birthProgress = clamp((currentTime - birthTime) / birthDuration, 0.0, 1.0);
           
-          // Pulsing glow
+          // Pulsing golden glow
           float pulse = sin(time * 2.0 + pulsePhase) * 0.3 + 0.7;
           
           // Fresnel effect for rim glow
           vec3 viewDir = normalize(cameraPosition - vPosition);
           float fresnel = pow(1.0 - abs(dot(vNormal, viewDir)), 2.0);
           
-          // Combine colors
+          // Warm golden color with intensity variation
           vec3 color = mix(baseColor, emissiveColor, pulse * 0.3 + fresnel * 0.4);
           
-          // Add glow
-          color += emissiveColor * fresnel * 0.5;
+          // Add emissive glow based on intensity
+          color += emissiveColor * fresnel * glowIntensity * 0.8;
           
           // Apply birth fade
-          float alpha = birthProgress;
+          float alpha = birthProgress * (0.7 + glowIntensity * 0.3);
           
           gl_FragColor = vec4(color, alpha);
         }
@@ -186,20 +132,30 @@ export class NodeSystem {
   }
   
   /**
-   * Add a new message node to the scene
+   * Add a new message inscription to the scene
    */
   addNode(message) {
-    const { message_id, userName, emotion, node_position } = message;
+    const { message_id, userName } = message;
     
     // Skip if node already exists
     if (this.meshes.has(message_id)) return;
     
-    // Get or calculate position
-    const position = node_position || getNodePosition(userName, message_id);
+    // Get placement - use existing values or calculate new ones
+    const treePart = message.treePart || getMessagePlacement(userName, message_id).treePart;
+    const position = message.position || getMessagePlacement(userName, message_id).position;
+    const glowIntensity = message.glowIntensity || getMessagePlacement(userName, message_id).glowIntensity;
+    
+    // Create enriched message with tree part info
+    const enrichedMessage = {
+      ...message,
+      treePart,
+      position,
+      glowIntensity
+    };
     
     // Create geometry and material
-    const geometry = this.createGeometry(emotion);
-    const material = this.createMaterial(emotion);
+    const geometry = this.createGeometry(treePart);
+    const material = this.createMaterial(glowIntensity);
     
     // Set birth time for animation
     material.uniforms.birthTime.value = this.time;
@@ -209,20 +165,19 @@ export class NodeSystem {
     mesh.position.set(position.x, position.y, position.z);
     mesh.userData = { 
       messageId: message_id, 
-      message,
+      message: enrichedMessage,
       originalPosition: { ...position },
       swayPhase: Math.random() * Math.PI * 2,
       swayAmplitude: 0.01 + Math.random() * 0.02
     };
     
-    // Add point light for glow effect
-    const config = EMOTION_CONFIG[emotion];
-    const glow = new THREE.PointLight(config.emissive, 0.3, 2);
+    // Add subtle point light for glow effect
+    const glow = new THREE.PointLight(MESSAGE_CONFIG.emissive, glowIntensity * 0.3, 2);
     mesh.add(glow);
     
     this.scene.add(mesh);
     this.meshes.set(message_id, mesh);
-    this.nodes.set(message_id, message);
+    this.nodes.set(message_id, enrichedMessage);
     
     // Birth animation
     this.animateBirth(mesh);
@@ -231,7 +186,7 @@ export class NodeSystem {
   }
   
   /**
-   * Birth animation for new nodes
+   * Birth animation for new inscriptions
    */
   animateBirth(mesh) {
     const startScale = 0.1;

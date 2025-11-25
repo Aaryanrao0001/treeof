@@ -1,10 +1,12 @@
 # 🌳 Infinite Messaging Tree
 
-A living, magical, ever-expanding digital organism where every message becomes a glowing node on a magical tree.
+A photorealistic, magical tree where messages are embedded as **glowing inscriptions** directly onto tree parts (bark, branches, leaves, roots) - creating a living archive of human thoughts.
 
 ## ✨ Overview
 
-The Infinite Messaging Tree is a WebGL-based 3D interactive experience built with Three.js. Users can compose messages that become glowing nodes on a mystical tree, each node taking on a visual form based on the emotion selected. The tree exists in a dynamic environment with weather effects, fireflies, and dreamy animations.
+The Infinite Messaging Tree is a WebGL-based 3D interactive experience built with Three.js. Users can compose messages that become **glowing inscriptions ON the tree itself** - carved runes in bark, luminescent veins in branches, soft glows in leaves, and surface inscriptions on roots. All messages use a unified golden/warm glow aesthetic.
+
+![Infinite Messaging Tree](https://github.com/user-attachments/assets/79fa0dc6-4f76-4422-95d7-3d0fbaac8222)
 
 ## 🚀 Getting Started
 
@@ -33,56 +35,44 @@ The application will be available at `http://localhost:3000`
 ## 🎮 Features
 
 ### Core Concept
-Every message someone leaves becomes a **node** (a visual object) attached to the magical tree. The tree never stops growing—each new message spawns a leaf, blossom, fruit, or spark depending on the emotional essence of the message.
+Every message someone leaves becomes a **glowing inscription** on the magical tree. Messages are placed ON tree parts - not as separate floating objects:
 
-### Emotion → Visual Form Mapping
+| Tree Part | Message Appearance |
+|-----------|-------------------|
+| Trunk Bark | Carved glowing runes |
+| Branch | Luminescent vein pulse |
+| Leaf | Soft inner glow |
+| Root | Surface inscription |
 
-| Emotion | Growth Type | Color | Description |
-|---------|-------------|-------|-------------|
-| Joy | Tender pale-green leaf | `#90EE90` | Icosahedron shape with gentle glow |
-| Love | Warm pink blossom | `#FFB6C1` | Soft sphere with pulsing light |
-| Sadness | Silver droplet | `#C0C0C0` | Teardrop shape, subtle shimmer |
-| Anger | Twisted dark bud | `#8B0000` | Cone shape with deep red emissive |
-| Confusion | Curled leaf | `#DDA0DD` | Torus shape, purple tones |
-| Secret | Hollow golden fruit | `#FFD700` | Dodecahedron with warm glow |
-| Excitement | Tiny bright spark | `#FFFF00` | Octahedron with intense brightness |
+### Message Placement System
+Messages are deterministically placed on tree geometry based on username and message ID:
+- **Trunk** - Messages carved into bark surface
+- **Branch** - Glowing veins along branches
+- **Leaf** - Soft illumination in the canopy
+- **Root** - Inscriptions on exposed root surfaces
 
-### Node Behaviors
-- Each node glows with its emotion-specific color
-- Slow dreamy sway animation (1-3 degrees amplitude, low frequency)
-- Node birth animation: 900-1400ms ease pulse, then slow drift loop
-- Hover shows username label (250ms delay)
-- Click opens modal with full message details
+### Unified Visual Style
+- All messages use **golden/warm glow** aesthetic
+- No emotion-based color differentiation
+- Consistent magical appearance across all tree parts
 
-### Weather Magic System
+### Weather System
 
 | Weather | Effects |
 |---------|---------|
-| ☀️ Clear | Warm god-rays, soft breezes, full bloom effects |
+| ☀️ Sun | Warm god-rays, soft breezes, full bloom effects |
 | 🌧️ Rain | Glowing droplets on leaves, enhanced puddle reflections |
-| 🌫️ Fog | Soft scattering, muted colors, dreamy atmosphere |
-| 💨 Wind | Slow lateral sway, drifting petals and leaves |
 | ❄️ Snow | White shimmer, gentle snowfall, frost effects |
-
-### Yearly Apple System (Yearfruit)
-
-Messages accumulate into "apples" that represent community milestones:
-
-| Threshold | Tier | Appearance |
-|-----------|------|------------|
-| 0 | Red | 🍎 Standard red apple |
-| 100,000 | Silver | ⚪ Silver gleaming apple |
-| 1,000,000 | Gold | 🌟 Golden radiant apple |
-| 10,000,000 | Runic | 🔮 Ancient runic apple |
-| 100,000,000 | White | 🍏 Ethereal white apple |
+| 💨 Wind | Slow lateral sway, drifting petals and leaves |
 
 ## 🎨 Visual Style
 
-The aesthetic is **ethereal fantasy realism**—NOT anime or cartoon:
-- Cinematic, emotional, immersive
+The aesthetic is **ethereal fantasy realism**:
+- Photorealistic tree with detailed bark texture
+- Glowing golden veins running through trunk and roots
+- Cinematic, emotional, immersive lighting
 - Slow, peaceful animations throughout
 - Firefly-like drifting particles
-- Everything moves very slowly—wind breathes, petals drift, nodes bob
 - Warm golden-hour lighting on one side, cool twilight on the other
 - Volumetric god-rays and soft bloom post-processing
 
@@ -90,37 +80,25 @@ The aesthetic is **ethereal fantasy realism**—NOT anime or cartoon:
 
 ### Header (Top Center)
 - App title with search functionality
-- Enter a Message ID to fly the camera to that node
+- Enter a Message ID to fly the camera to that inscription
 
-### Composer Panel (Bottom Left)
-- Name input field
-- Emotion dropdown selector
-- Message textarea
-- Glowing "Grow" button to create new messages
+### Composer Panel (Bottom Left) - Simplified
+- **Name input** - Your name
+- **Message textarea** - Your message
+- **Grow button** - Create new inscription
+- *No emotion dropdown - all messages use unified golden glow*
 
 ### Weather Panel (Bottom Right)
-- Weather selection buttons
-- Auto-Weather toggle for automatic cycling
+- Weather selection buttons (Sun, Rain, Snow, Wind)
 
-### Node Legend (Left Side)
-- Visual guide to node types and colors
-
-### Yearfruit Display (Top Left)
-- Shows current year's apple with tier indicator
-- Displays message count for the year
+### Message Modal (On Click)
+- Username
+- Message text
+- Timestamp
+- Message ID
+- Location on tree (trunk/branch/leaf/root)
 
 ## 🔧 Technical Details
-
-### Deterministic Positioning
-Nodes are positioned deterministically based on username and message ID:
-
-```javascript
-function getNodePosition(userName, messageId) {
-  const seed = hashCode(userName + messageId);
-  // Converts to spherical coordinates on tree canopy
-  return { x, y, z };
-}
-```
 
 ### Data Structure
 ```javascript
@@ -128,27 +106,42 @@ function getNodePosition(userName, messageId) {
   message_id: string,      // Unique identifier
   userName: string,        // Author's name
   message: string,         // Message content
-  emotion: string,         // joy|love|sadness|anger|confusion|secret|excitement
   timestamp: Date,         // Creation time
-  node_position: {x, y, z} // 3D position on tree
+  treePart: 'trunk' | 'branch' | 'leaf' | 'root',
+  position: { x, y, z },   // 3D position on tree
+  glowIntensity: number    // 0.5 - 1.0
 }
 ```
 
-### LOD System
-- **LOD0** (close): Full 3D mesh, clickable
-- **LOD1** (medium): Instanced textured quads
-- **LOD2** (far): Particle/haze clusters
+### Message Placement
+```javascript
+// Messages placed ON tree geometry, not as separate objects
+function getMessagePlacement(userName, messageId) {
+  const seed = hashCode(userName + messageId);
+  
+  // Determine which tree part (trunk, branch, leaf, root)
+  const treePart = getTreePart(seed);
+  
+  // Get 3D position on that part's surface
+  const position = getPositionForTreePart(treePart, seed);
+  
+  // Golden glow intensity
+  const glowIntensity = 0.5 + Math.random() * 0.5;
+  
+  return { treePart, position, glowIntensity };
+}
+```
 
 ### Animation Timings
 
 | Animation | Duration | Easing |
 |-----------|----------|--------|
-| Node birth pulse | 900-1400ms | ease-out |
-| Node drift loop | 2-6s | sinusoidal |
+| Inscription birth pulse | 1200ms | ease-out |
+| Inscription drift loop | 2-6s | sinusoidal |
 | Camera fly-to | 800-1200ms | ease-out-quad |
 | Hover label appear | 250ms | ease |
 | Wind sway | 1-3° amplitude | low frequency sine |
-| Weather transition | 500-1000ms | ease-in-out |
+| Weather transition | 800ms | ease-in-out |
 
 ### Storage
 Messages persist in localStorage (no backend required for prototype)
@@ -157,58 +150,40 @@ Messages persist in localStorage (no backend required for prototype)
 
 ```
 /
-├── index.html              # Main HTML entry
+├── index.html              # Main HTML entry (simplified UI)
 ├── package.json            # Dependencies
 ├── vite.config.js          # Vite configuration
 ├── src/
 │   ├── main.js             # Entry point
 │   ├── scene/
-│   │   ├── Tree.js         # Tree mesh & materials
+│   │   ├── Tree.js         # Tree mesh with glowing veins
 │   │   ├── Environment.js  # Meadow, sky, lighting
-│   │   ├── Nodes.js        # Message node system
+│   │   ├── Nodes.js        # Message inscription system
 │   │   ├── Weather.js      # Weather effects
 │   │   └── PostProcessing.js # Bloom, god-rays
 │   ├── ui/
-│   │   ├── Composer.js     # Message input panel
-│   │   ├── Modal.js        # Message detail modal
+│   │   ├── Composer.js     # Simplified: name + message only
+│   │   ├── Modal.js        # Message detail with tree location
 │   │   ├── Search.js       # Search functionality
-│   │   ├── WeatherUI.js    # Weather controls
-│   │   └── Yearfruit.js    # Yearfruit display
+│   │   └── WeatherUI.js    # Weather controls
 │   ├── utils/
-│   │   ├── hash.js         # Deterministic positioning
+│   │   ├── hash.js         # Message placement algorithm
 │   │   └── storage.js      # localStorage helpers
 │   └── styles/
 │       └── main.css        # UI styling
-├── public/
-│   └── textures/           # Tree bark, leaves, etc.
 └── README.md               # This file
 ```
 
 ## 🌱 Memory Seeds
 
-Each message is a **memory seed**—a tiny capsule of human thought planted in the digital soil. Once planted, it becomes part of the tree forever, creating a living archive of collective consciousness.
-
-## 🎭 Auto-Expansion Rule
-
-The tree grows automatically as messages accumulate:
-- More messages = larger canopy
-- Diverse emotions = richer color palette
-- Community activity = brighter glow
+Each message is a **memory seed**—a tiny capsule of human thought inscribed onto the digital tree. Once planted, it becomes part of the tree forever, creating a living archive of collective consciousness.
 
 ## 📱 Mobile Support
 
 The interface is fully responsive:
 - Touch controls for camera manipulation
-- Tap nodes to view details
+- Tap inscriptions to view details
 - Optimized panels for smaller screens
-
-## 🔮 Future Enhancements
-
-- Backend integration for persistent storage
-- Real-time multiplayer viewing
-- Sound design and ambient audio
-- Advanced particle effects
-- VR/AR support
 
 ## 📄 License
 
@@ -216,4 +191,4 @@ MIT License - Feel free to use, modify, and distribute.
 
 ---
 
-*Plant a message. Watch it grow. Become part of the infinite tree.* 🌳✨
+*Plant a message. Watch it glow. Become part of the infinite tree.* 🌳✨

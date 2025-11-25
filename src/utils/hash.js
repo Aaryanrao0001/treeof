@@ -32,37 +32,104 @@ export function seededRandom(seed) {
 }
 
 /**
+ * Tree parts for message placement
+ */
+const TREE_PARTS = ['trunk', 'branch', 'leaf', 'root'];
+
+/** Default tree part for fallback */
+export const DEFAULT_TREE_PART = 'trunk';
+
+/**
+ * Get deterministic message placement on tree
+ * Messages are placed ON tree geometry, not as separate objects
+ * @param {string} userName - User's name
+ * @param {string} messageId - Unique message identifier
+ * @returns {{treePart: string, position: {x, y, z}, glowIntensity: number}}
+ */
+export function getMessagePlacement(userName, messageId) {
+  const seed = hashCode(userName + messageId);
+  const rand = seededRandom(seed);
+  
+  // Determine which tree part (trunk, branch, leaf, root)
+  const partIndex = seed % TREE_PARTS.length;
+  const treePart = TREE_PARTS[partIndex];
+  
+  // Get position based on tree part
+  const position = getPositionForTreePart(treePart, rand, seed);
+  
+  // Random glow intensity (0.5 - 1.0)
+  const glowIntensity = 0.5 + rand() * 0.5;
+  
+  return {
+    treePart,
+    position,
+    glowIntensity
+  };
+}
+
+/**
+ * Get 3D position based on tree part
+ */
+function getPositionForTreePart(treePart, rand, seed) {
+  switch (treePart) {
+    case 'trunk': {
+      // Position on trunk surface (cylinder)
+      const angle = (seed * 0.618) % (Math.PI * 2);
+      const height = 1 + rand() * 6; // Height 1-7 on trunk
+      const radius = 1.2 + (height / 8) * -0.3; // Tapers towards top
+      return {
+        x: Math.cos(angle) * radius,
+        y: height,
+        z: Math.sin(angle) * radius
+      };
+    }
+    case 'branch': {
+      // Position along branches
+      const branchAngle = (seed * 0.718) % (Math.PI * 2);
+      const branchLength = 1 + rand() * 3;
+      const height = 5 + rand() * 3;
+      return {
+        x: Math.cos(branchAngle) * branchLength,
+        y: height,
+        z: Math.sin(branchAngle) * branchLength
+      };
+    }
+    case 'leaf': {
+      // Position in canopy
+      const theta = (seed * 0.618) % (Math.PI * 2);
+      const phi = Math.acos(1 - 2 * rand());
+      const canopyRadius = 4 + rand() * 2;
+      return {
+        x: canopyRadius * Math.sin(phi) * Math.cos(theta),
+        y: 8 + canopyRadius * Math.cos(phi) * 0.6,
+        z: canopyRadius * Math.sin(phi) * Math.sin(theta)
+      };
+    }
+    case 'root': {
+      // Position on exposed roots
+      const rootAngle = (seed * 0.818) % (Math.PI * 2);
+      const rootLength = 2 + rand() * 2;
+      return {
+        x: Math.cos(rootAngle) * rootLength,
+        y: -0.1 + rand() * 0.5,
+        z: Math.sin(rootAngle) * rootLength
+      };
+    }
+    default:
+      return { x: 0, y: 5, z: 0 };
+  }
+}
+
+/**
  * Generate deterministic 3D position for a message node
- * Positions are distributed on and around the tree canopy
+ * @deprecated Use getMessagePlacement() instead for full placement info
  * @param {string} userName - User's name
  * @param {string} messageId - Unique message identifier
  * @returns {{x: number, y: number, z: number}} - 3D position
  */
 export function getNodePosition(userName, messageId) {
-  const seed = hashCode(userName + messageId);
-  const rand = seededRandom(seed);
-  
-  // Generate spherical coordinates for tree canopy distribution
-  // Tree canopy is roughly spherical with center at (0, 8, 0)
-  const canopyCenter = { x: 0, y: 8, z: 0 };
-  const canopyRadius = 6;
-  
-  // Use golden angle for better distribution
-  const goldenAngle = Math.PI * (3 - Math.sqrt(5));
-  const theta = seed * goldenAngle;
-  
-  // Vertical distribution - bias towards middle of canopy
-  const phi = Math.acos(1 - 2 * rand());
-  
-  // Radius variation for depth within canopy
-  const r = canopyRadius * (0.6 + rand() * 0.4);
-  
-  // Convert spherical to Cartesian
-  const x = canopyCenter.x + r * Math.sin(phi) * Math.cos(theta);
-  const y = canopyCenter.y + r * Math.cos(phi) * 0.8; // Slightly flattened
-  const z = canopyCenter.z + r * Math.sin(phi) * Math.sin(theta);
-  
-  return { x, y, z };
+  const placement = getMessagePlacement(userName, messageId);
+  return placement.position;
 }
 
 /**

@@ -1,6 +1,6 @@
 /* ============================================
    INFINITE MESSAGING TREE - Main Styles
-   Ethereal Fantasy Realism UI
+   Photorealistic Tree with Glowing Inscriptions
    ============================================ */
 
 /* Reset & Base */
@@ -111,100 +111,7 @@ canvas {
 }
 
 /* ============================================
-   YEARFRUIT PANEL
-   ============================================ */
-#yearfruit-panel {
-  position: absolute;
-  top: 20px;
-  left: 20px;
-  z-index: 100;
-  display: flex;
-  align-items: center;
-  gap: 12px;
-  padding: 12px 16px;
-  background: rgba(10, 10, 30, 0.7);
-  backdrop-filter: blur(12px);
-  border-radius: 16px;
-  border: 1px solid rgba(255, 100, 100, 0.2);
-  box-shadow: 0 4px 20px rgba(0, 0, 0, 0.3);
-}
-
-.yearfruit-apple {
-  font-size: 2.5rem;
-  filter: drop-shadow(0 0 10px rgba(255, 100, 100, 0.5));
-  animation: apple-glow 3s ease-in-out infinite;
-}
-
-@keyframes apple-glow {
-  0%, 100% { filter: drop-shadow(0 0 10px rgba(255, 100, 100, 0.5)); }
-  50% { filter: drop-shadow(0 0 20px rgba(255, 100, 100, 0.8)); }
-}
-
-.yearfruit-info {
-  display: flex;
-  flex-direction: column;
-  gap: 2px;
-  font-size: 0.85rem;
-}
-
-#yearfruit-year {
-  font-weight: 700;
-  color: #ffd700;
-}
-
-#yearfruit-tier {
-  color: #ff6b6b;
-  font-weight: 500;
-}
-
-#yearfruit-count {
-  color: rgba(255, 255, 255, 0.6);
-  font-size: 0.75rem;
-}
-
-/* ============================================
-   NODE LEGEND
-   ============================================ */
-#node-legend {
-  position: absolute;
-  top: 140px;
-  left: 20px;
-  z-index: 100;
-  padding: 16px;
-  background: rgba(10, 10, 30, 0.7);
-  backdrop-filter: blur(12px);
-  border-radius: 16px;
-  border: 1px solid rgba(144, 238, 144, 0.2);
-  box-shadow: 0 4px 20px rgba(0, 0, 0, 0.3);
-  min-width: 150px;
-}
-
-#node-legend h3 {
-  font-size: 0.9rem;
-  font-weight: 500;
-  color: #90EE90;
-  margin-bottom: 12px;
-  text-shadow: 0 0 10px rgba(144, 238, 144, 0.3);
-}
-
-.legend-item {
-  display: flex;
-  align-items: center;
-  gap: 8px;
-  padding: 4px 0;
-  font-size: 0.8rem;
-  color: rgba(255, 255, 255, 0.8);
-}
-
-.legend-color {
-  width: 12px;
-  height: 12px;
-  border-radius: 50%;
-  box-shadow: 0 0 8px currentColor;
-}
-
-/* ============================================
-   COMPOSER PANEL
+   COMPOSER PANEL (Simplified)
    ============================================ */
 #composer-panel {
   position: absolute;
@@ -216,36 +123,28 @@ canvas {
   background: rgba(10, 10, 30, 0.8);
   backdrop-filter: blur(16px);
   border-radius: 20px;
-  border: 1px solid rgba(144, 238, 144, 0.3);
+  border: 1px solid rgba(255, 215, 0, 0.3);
   box-shadow: 0 4px 30px rgba(0, 0, 0, 0.4),
-              0 0 40px rgba(144, 238, 144, 0.1);
-}
-
-#composer-panel h3 {
-  font-size: 1rem;
-  font-weight: 500;
-  color: #90EE90;
-  margin-bottom: 16px;
-  text-shadow: 0 0 15px rgba(144, 238, 144, 0.4);
+              0 0 40px rgba(255, 215, 0, 0.1);
 }
 
 .form-group {
-  margin-bottom: 12px;
+  margin-bottom: 14px;
 }
 
 .form-group label {
   display: block;
-  font-size: 0.8rem;
-  color: rgba(255, 255, 255, 0.6);
+  font-size: 0.85rem;
+  color: rgba(255, 215, 0, 0.8);
   margin-bottom: 6px;
+  font-weight: 500;
 }
 
 .form-group input,
-.form-group select,
 .form-group textarea {
   width: 100%;
   padding: 10px 14px;
-  border: 1px solid rgba(144, 238, 144, 0.3);
+  border: 1px solid rgba(255, 215, 0, 0.3);
   border-radius: 12px;
   background: rgba(0, 0, 0, 0.4);
   color: #e0e0e0;
@@ -256,10 +155,9 @@ canvas {
 }
 
 .form-group input:focus,
-.form-group select:focus,
 .form-group textarea:focus {
-  border-color: rgba(144, 238, 144, 0.6);
-  box-shadow: 0 0 15px rgba(144, 238, 144, 0.2);
+  border-color: rgba(255, 215, 0, 0.6);
+  box-shadow: 0 0 15px rgba(255, 215, 0, 0.2);
 }
 
 .form-group textarea {
@@ -271,18 +169,18 @@ canvas {
   padding: 12px;
   border: none;
   border-radius: 12px;
-  background: linear-gradient(135deg, #4CAF50, #2E7D32);
-  color: white;
+  background: linear-gradient(135deg, #ffd700, #ff8c00);
+  color: #1a1a2e;
   font-size: 1rem;
   font-weight: 600;
   cursor: pointer;
   transition: all 0.3s ease;
-  box-shadow: 0 0 20px rgba(76, 175, 80, 0.3);
+  box-shadow: 0 0 20px rgba(255, 215, 0, 0.3);
 }
 
 .glow-button:hover {
   transform: translateY(-2px);
-  box-shadow: 0 0 30px rgba(76, 175, 80, 0.5),
+  box-shadow: 0 0 30px rgba(255, 215, 0, 0.5),
               0 5px 20px rgba(0, 0, 0, 0.3);
 }
 
@@ -291,42 +189,33 @@ canvas {
 }
 
 /* ============================================
-   WEATHER PANEL
+   WEATHER PANEL (Simplified)
    ============================================ */
 #weather-panel {
   position: absolute;
   bottom: 20px;
   right: 20px;
   z-index: 100;
-  padding: 16px;
+  padding: 12px;
   background: rgba(10, 10, 30, 0.7);
   backdrop-filter: blur(12px);
   border-radius: 16px;
-  border: 1px solid rgba(135, 206, 235, 0.2);
+  border: 1px solid rgba(255, 215, 0, 0.2);
   box-shadow: 0 4px 20px rgba(0, 0, 0, 0.3);
-}
-
-#weather-panel h3 {
-  font-size: 0.9rem;
-  font-weight: 500;
-  color: #87CEEB;
-  margin-bottom: 12px;
-  text-shadow: 0 0 10px rgba(135, 206, 235, 0.3);
 }
 
 .weather-buttons {
   display: flex;
   gap: 8px;
-  margin-bottom: 12px;
 }
 
 .weather-btn {
-  width: 40px;
-  height: 40px;
+  width: 44px;
+  height: 44px;
   border: 1px solid rgba(255, 255, 255, 0.2);
-  border-radius: 10px;
+  border-radius: 12px;
   background: rgba(0, 0, 0, 0.3);
-  font-size: 1.3rem;
+  font-size: 1.4rem;
   cursor: pointer;
   transition: all 0.3s ease;
 }
@@ -340,22 +229,6 @@ canvas {
   background: rgba(255, 215, 0, 0.2);
   border-color: rgba(255, 215, 0, 0.5);
   box-shadow: 0 0 15px rgba(255, 215, 0, 0.3);
-}
-
-.auto-weather {
-  font-size: 0.8rem;
-  color: rgba(255, 255, 255, 0.6);
-}
-
-.auto-weather label {
-  display: flex;
-  align-items: center;
-  gap: 8px;
-  cursor: pointer;
-}
-
-.auto-weather input[type="checkbox"] {
-  accent-color: #87CEEB;
 }
 
 /* ============================================
@@ -424,7 +297,6 @@ canvas {
 .modal-header {
   display: flex;
   align-items: center;
-  justify-content: space-between;
   margin-bottom: 16px;
 }
 
@@ -432,15 +304,6 @@ canvas {
   font-size: 1.2rem;
   font-weight: 600;
   color: #ffd700;
-}
-
-.modal-emotion-badge {
-  padding: 4px 12px;
-  border-radius: 20px;
-  font-size: 0.8rem;
-  font-weight: 500;
-  background: rgba(144, 238, 144, 0.2);
-  color: #90EE90;
 }
 
 .modal-message {
@@ -455,9 +318,14 @@ canvas {
 
 .modal-footer {
   display: flex;
-  justify-content: space-between;
+  flex-wrap: wrap;
+  gap: 12px;
   font-size: 0.75rem;
   color: rgba(255, 255, 255, 0.5);
+}
+
+#modal-location {
+  color: rgba(255, 215, 0, 0.7);
 }
 
 /* ============================================
@@ -500,41 +368,12 @@ canvas {
     width: 140px;
   }
 
-  #yearfruit-panel {
-    top: 90px;
-    left: 10px;
-    padding: 8px 12px;
-  }
-
-  .yearfruit-apple {
-    font-size: 1.8rem;
-  }
-
-  #node-legend {
-    top: 160px;
-    left: 10px;
-    padding: 10px;
-    min-width: 120px;
-  }
-
-  #node-legend h3 {
-    font-size: 0.8rem;
-  }
-
-  .legend-item {
-    font-size: 0.7rem;
-  }
-
   #composer-panel {
     bottom: 10px;
     left: 10px;
-    width: calc(50% - 15px);
-    max-width: 220px;
+    width: calc(60% - 15px);
+    max-width: 240px;
     padding: 14px;
-  }
-
-  #composer-panel h3 {
-    font-size: 0.9rem;
   }
 
   #weather-panel {
@@ -543,22 +382,14 @@ canvas {
     padding: 10px;
   }
 
-  #weather-panel h3 {
-    font-size: 0.8rem;
-  }
-
   .weather-btn {
-    width: 32px;
-    height: 32px;
-    font-size: 1.1rem;
+    width: 36px;
+    height: 36px;
+    font-size: 1.2rem;
   }
 }
 
 @media (max-width: 480px) {
-  #node-legend {
-    display: none;
-  }
-
   #composer-panel {
     width: calc(100% - 20px);
     max-width: none;
@@ -588,6 +419,6 @@ canvas {
 }
 
 /* Smooth transitions for all interactive elements */
-button, input, select, textarea {
+button, input, textarea {
   transition: all 0.3s ease;
 }
