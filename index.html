@@ -1,0 +1,132 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Infinite Messaging Tree</title>
+  <link rel="stylesheet" href="/src/styles/main.css">
+</head>
+<body>
+  <div id="app">
+    <!-- 3D Canvas Container -->
+    <div id="canvas-container"></div>
+    
+    <!-- Header -->
+    <header id="header">
+      <h1>🌳 Infinite Messaging Tree</h1>
+      <div class="search-container">
+        <input type="text" id="search-input" placeholder="Enter Message ID..." />
+        <button id="search-btn">Find</button>
+      </div>
+    </header>
+    
+    <!-- Yearfruit Display (Top Left) -->
+    <div id="yearfruit-panel">
+      <div class="yearfruit-apple" id="yearfruit-apple">🍎</div>
+      <div class="yearfruit-info">
+        <span id="yearfruit-year">2025</span>
+        <span id="yearfruit-tier">Red</span>
+        <span id="yearfruit-count">0 messages</span>
+      </div>
+    </div>
+    
+    <!-- Node Legend (Left Side) -->
+    <div id="node-legend">
+      <h3>Node Types</h3>
+      <div class="legend-item">
+        <span class="legend-color" style="background: #90EE90;"></span>
+        <span>Joy - Leaf</span>
+      </div>
+      <div class="legend-item">
+        <span class="legend-color" style="background: #FFB6C1;"></span>
+        <span>Love - Blossom</span>
+      </div>
+      <div class="legend-item">
+        <span class="legend-color" style="background: #C0C0C0;"></span>
+        <span>Sadness - Droplet</span>
+      </div>
+      <div class="legend-item">
+        <span class="legend-color" style="background: #8B0000;"></span>
+        <span>Anger - Bud</span>
+      </div>
+      <div class="legend-item">
+        <span class="legend-color" style="background: #DDA0DD;"></span>
+        <span>Confusion - Curl</span>
+      </div>
+      <div class="legend-item">
+        <span class="legend-color" style="background: #FFD700;"></span>
+        <span>Secret - Fruit</span>
+      </div>
+      <div class="legend-item">
+        <span class="legend-color" style="background: #FFFF00;"></span>
+        <span>Excitement - Spark</span>
+      </div>
+    </div>
+    
+    <!-- Composer Panel (Bottom Left) -->
+    <div id="composer-panel">
+      <h3>🌱 Grow a Message</h3>
+      <div class="form-group">
+        <label for="composer-name">Name</label>
+        <input type="text" id="composer-name" placeholder="Your name..." />
+      </div>
+      <div class="form-group">
+        <label for="composer-emotion">Emotion</label>
+        <select id="composer-emotion">
+          <option value="joy">😊 Joy</option>
+          <option value="love">💕 Love</option>
+          <option value="sadness">😢 Sadness</option>
+          <option value="anger">😠 Anger</option>
+          <option value="confusion">😕 Confusion</option>
+          <option value="secret">🤫 Secret</option>
+          <option value="excitement">✨ Excitement</option>
+        </select>
+      </div>
+      <div class="form-group">
+        <label for="composer-message">Message</label>
+        <textarea id="composer-message" placeholder="Write your message..." rows="3"></textarea>
+      </div>
+      <button id="composer-submit" class="glow-button">🌿 Grow</button>
+    </div>
+    
+    <!-- Weather Panel (Bottom Right) -->
+    <div id="weather-panel">
+      <h3>🌤️ Weather Magic</h3>
+      <div class="weather-buttons">
+        <button class="weather-btn active" data-weather="clear" title="Clear">☀️</button>
+        <button class="weather-btn" data-weather="rain" title="Rain">🌧️</button>
+        <button class="weather-btn" data-weather="snow" title="Snow">❄️</button>
+        <button class="weather-btn" data-weather="wind" title="Wind">💨</button>
+        <button class="weather-btn" data-weather="fog" title="Fog">🌫️</button>
+      </div>
+      <div class="auto-weather">
+        <label>
+          <input type="checkbox" id="auto-weather-toggle" />
+          Auto Weather
+        </label>
+      </div>
+    </div>
+    
+    <!-- Message Modal -->
+    <div id="message-modal" class="modal hidden">
+      <div class="modal-content">
+        <button class="modal-close">&times;</button>
+        <div class="modal-header">
+          <span id="modal-username">Username</span>
+          <span id="modal-emotion" class="modal-emotion-badge">Joy</span>
+        </div>
+        <p id="modal-message" class="modal-message">Message content...</p>
+        <div class="modal-footer">
+          <span id="modal-timestamp">Timestamp</span>
+          <span id="modal-id">ID: abc123</span>
+        </div>
+      </div>
+    </div>
+    
+    <!-- Hover Label -->
+    <div id="hover-label" class="hidden"></div>
+  </div>
+  
+  <script type="module" src="/src/main.js"></script>
+</body>
+</html>
