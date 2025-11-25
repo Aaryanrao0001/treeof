@@ -1,0 +1,593 @@
+/* ============================================
+   INFINITE MESSAGING TREE - Main Styles
+   Ethereal Fantasy Realism UI
+   ============================================ */
+
+/* Reset & Base */
+* {
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box;
+}
+
+html, body {
+  width: 100%;
+  height: 100%;
+  overflow: hidden;
+  font-family: 'Segoe UI', system-ui, -apple-system, sans-serif;
+  background: #0a0a15;
+  color: #e0e0e0;
+}
+
+#app {
+  width: 100%;
+  height: 100%;
+  position: relative;
+}
+
+#canvas-container {
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  z-index: 0;
+}
+
+canvas {
+  display: block;
+}
+
+/* ============================================
+   HEADER
+   ============================================ */
+#header {
+  position: absolute;
+  top: 20px;
+  left: 50%;
+  transform: translateX(-50%);
+  z-index: 100;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 12px;
+  padding: 16px 24px;
+  background: rgba(10, 10, 30, 0.7);
+  backdrop-filter: blur(12px);
+  border-radius: 20px;
+  border: 1px solid rgba(255, 215, 0, 0.2);
+  box-shadow: 0 4px 30px rgba(0, 0, 0, 0.4),
+              0 0 40px rgba(255, 215, 0, 0.1);
+}
+
+#header h1 {
+  font-size: 1.4rem;
+  font-weight: 500;
+  color: #ffd700;
+  text-shadow: 0 0 20px rgba(255, 215, 0, 0.5);
+  letter-spacing: 1px;
+}
+
+.search-container {
+  display: flex;
+  gap: 8px;
+}
+
+#search-input {
+  padding: 8px 16px;
+  width: 200px;
+  border: 1px solid rgba(255, 215, 0, 0.3);
+  border-radius: 20px;
+  background: rgba(0, 0, 0, 0.4);
+  color: #e0e0e0;
+  font-size: 0.9rem;
+  outline: none;
+  transition: all 0.3s ease;
+}
+
+#search-input:focus {
+  border-color: rgba(255, 215, 0, 0.6);
+  box-shadow: 0 0 15px rgba(255, 215, 0, 0.2);
+}
+
+#search-input::placeholder {
+  color: rgba(255, 255, 255, 0.4);
+}
+
+#search-btn {
+  padding: 8px 20px;
+  border: none;
+  border-radius: 20px;
+  background: linear-gradient(135deg, #ffd700, #ff8c00);
+  color: #1a1a2e;
+  font-weight: 600;
+  cursor: pointer;
+  transition: all 0.3s ease;
+}
+
+#search-btn:hover {
+  transform: scale(1.05);
+  box-shadow: 0 0 20px rgba(255, 215, 0, 0.4);
+}
+
+/* ============================================
+   YEARFRUIT PANEL
+   ============================================ */
+#yearfruit-panel {
+  position: absolute;
+  top: 20px;
+  left: 20px;
+  z-index: 100;
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  padding: 12px 16px;
+  background: rgba(10, 10, 30, 0.7);
+  backdrop-filter: blur(12px);
+  border-radius: 16px;
+  border: 1px solid rgba(255, 100, 100, 0.2);
+  box-shadow: 0 4px 20px rgba(0, 0, 0, 0.3);
+}
+
+.yearfruit-apple {
+  font-size: 2.5rem;
+  filter: drop-shadow(0 0 10px rgba(255, 100, 100, 0.5));
+  animation: apple-glow 3s ease-in-out infinite;
+}
+
+@keyframes apple-glow {
+  0%, 100% { filter: drop-shadow(0 0 10px rgba(255, 100, 100, 0.5)); }
+  50% { filter: drop-shadow(0 0 20px rgba(255, 100, 100, 0.8)); }
+}
+
+.yearfruit-info {
+  display: flex;
+  flex-direction: column;
+  gap: 2px;
+  font-size: 0.85rem;
+}
+
+#yearfruit-year {
+  font-weight: 700;
+  color: #ffd700;
+}
+
+#yearfruit-tier {
+  color: #ff6b6b;
+  font-weight: 500;
+}
+
+#yearfruit-count {
+  color: rgba(255, 255, 255, 0.6);
+  font-size: 0.75rem;
+}
+
+/* ============================================
+   NODE LEGEND
+   ============================================ */
+#node-legend {
+  position: absolute;
+  top: 140px;
+  left: 20px;
+  z-index: 100;
+  padding: 16px;
+  background: rgba(10, 10, 30, 0.7);
+  backdrop-filter: blur(12px);
+  border-radius: 16px;
+  border: 1px solid rgba(144, 238, 144, 0.2);
+  box-shadow: 0 4px 20px rgba(0, 0, 0, 0.3);
+  min-width: 150px;
+}
+
+#node-legend h3 {
+  font-size: 0.9rem;
+  font-weight: 500;
+  color: #90EE90;
+  margin-bottom: 12px;
+  text-shadow: 0 0 10px rgba(144, 238, 144, 0.3);
+}
+
+.legend-item {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  padding: 4px 0;
+  font-size: 0.8rem;
+  color: rgba(255, 255, 255, 0.8);
+}
+
+.legend-color {
+  width: 12px;
+  height: 12px;
+  border-radius: 50%;
+  box-shadow: 0 0 8px currentColor;
+}
+
+/* ============================================
+   COMPOSER PANEL
+   ============================================ */
+#composer-panel {
+  position: absolute;
+  bottom: 20px;
+  left: 20px;
+  z-index: 100;
+  padding: 20px;
+  width: 280px;
+  background: rgba(10, 10, 30, 0.8);
+  backdrop-filter: blur(16px);
+  border-radius: 20px;
+  border: 1px solid rgba(144, 238, 144, 0.3);
+  box-shadow: 0 4px 30px rgba(0, 0, 0, 0.4),
+              0 0 40px rgba(144, 238, 144, 0.1);
+}
+
+#composer-panel h3 {
+  font-size: 1rem;
+  font-weight: 500;
+  color: #90EE90;
+  margin-bottom: 16px;
+  text-shadow: 0 0 15px rgba(144, 238, 144, 0.4);
+}
+
+.form-group {
+  margin-bottom: 12px;
+}
+
+.form-group label {
+  display: block;
+  font-size: 0.8rem;
+  color: rgba(255, 255, 255, 0.6);
+  margin-bottom: 6px;
+}
+
+.form-group input,
+.form-group select,
+.form-group textarea {
+  width: 100%;
+  padding: 10px 14px;
+  border: 1px solid rgba(144, 238, 144, 0.3);
+  border-radius: 12px;
+  background: rgba(0, 0, 0, 0.4);
+  color: #e0e0e0;
+  font-size: 0.9rem;
+  font-family: inherit;
+  outline: none;
+  transition: all 0.3s ease;
+}
+
+.form-group input:focus,
+.form-group select:focus,
+.form-group textarea:focus {
+  border-color: rgba(144, 238, 144, 0.6);
+  box-shadow: 0 0 15px rgba(144, 238, 144, 0.2);
+}
+
+.form-group textarea {
+  resize: none;
+}
+
+.glow-button {
+  width: 100%;
+  padding: 12px;
+  border: none;
+  border-radius: 12px;
+  background: linear-gradient(135deg, #4CAF50, #2E7D32);
+  color: white;
+  font-size: 1rem;
+  font-weight: 600;
+  cursor: pointer;
+  transition: all 0.3s ease;
+  box-shadow: 0 0 20px rgba(76, 175, 80, 0.3);
+}
+
+.glow-button:hover {
+  transform: translateY(-2px);
+  box-shadow: 0 0 30px rgba(76, 175, 80, 0.5),
+              0 5px 20px rgba(0, 0, 0, 0.3);
+}
+
+.glow-button:active {
+  transform: translateY(0);
+}
+
+/* ============================================
+   WEATHER PANEL
+   ============================================ */
+#weather-panel {
+  position: absolute;
+  bottom: 20px;
+  right: 20px;
+  z-index: 100;
+  padding: 16px;
+  background: rgba(10, 10, 30, 0.7);
+  backdrop-filter: blur(12px);
+  border-radius: 16px;
+  border: 1px solid rgba(135, 206, 235, 0.2);
+  box-shadow: 0 4px 20px rgba(0, 0, 0, 0.3);
+}
+
+#weather-panel h3 {
+  font-size: 0.9rem;
+  font-weight: 500;
+  color: #87CEEB;
+  margin-bottom: 12px;
+  text-shadow: 0 0 10px rgba(135, 206, 235, 0.3);
+}
+
+.weather-buttons {
+  display: flex;
+  gap: 8px;
+  margin-bottom: 12px;
+}
+
+.weather-btn {
+  width: 40px;
+  height: 40px;
+  border: 1px solid rgba(255, 255, 255, 0.2);
+  border-radius: 10px;
+  background: rgba(0, 0, 0, 0.3);
+  font-size: 1.3rem;
+  cursor: pointer;
+  transition: all 0.3s ease;
+}
+
+.weather-btn:hover {
+  background: rgba(255, 255, 255, 0.1);
+  transform: scale(1.1);
+}
+
+.weather-btn.active {
+  background: rgba(255, 215, 0, 0.2);
+  border-color: rgba(255, 215, 0, 0.5);
+  box-shadow: 0 0 15px rgba(255, 215, 0, 0.3);
+}
+
+.auto-weather {
+  font-size: 0.8rem;
+  color: rgba(255, 255, 255, 0.6);
+}
+
+.auto-weather label {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  cursor: pointer;
+}
+
+.auto-weather input[type="checkbox"] {
+  accent-color: #87CEEB;
+}
+
+/* ============================================
+   MESSAGE MODAL
+   ============================================ */
+.modal {
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  z-index: 1000;
+  background: rgba(0, 0, 0, 0.7);
+  backdrop-filter: blur(4px);
+  opacity: 1;
+  transition: opacity 0.3s ease;
+}
+
+.modal.hidden {
+  opacity: 0;
+  pointer-events: none;
+}
+
+.modal-content {
+  position: relative;
+  max-width: 400px;
+  width: 90%;
+  padding: 24px;
+  background: rgba(20, 20, 40, 0.95);
+  backdrop-filter: blur(20px);
+  border-radius: 20px;
+  border: 1px solid rgba(255, 215, 0, 0.3);
+  box-shadow: 0 10px 50px rgba(0, 0, 0, 0.5),
+              0 0 50px rgba(255, 215, 0, 0.1);
+  transform: scale(1);
+  transition: transform 0.3s ease;
+}
+
+.modal.hidden .modal-content {
+  transform: scale(0.9);
+}
+
+.modal-close {
+  position: absolute;
+  top: 12px;
+  right: 12px;
+  width: 30px;
+  height: 30px;
+  border: none;
+  border-radius: 50%;
+  background: rgba(255, 255, 255, 0.1);
+  color: #e0e0e0;
+  font-size: 1.2rem;
+  cursor: pointer;
+  transition: all 0.3s ease;
+}
+
+.modal-close:hover {
+  background: rgba(255, 255, 255, 0.2);
+  transform: rotate(90deg);
+}
+
+.modal-header {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  margin-bottom: 16px;
+}
+
+#modal-username {
+  font-size: 1.2rem;
+  font-weight: 600;
+  color: #ffd700;
+}
+
+.modal-emotion-badge {
+  padding: 4px 12px;
+  border-radius: 20px;
+  font-size: 0.8rem;
+  font-weight: 500;
+  background: rgba(144, 238, 144, 0.2);
+  color: #90EE90;
+}
+
+.modal-message {
+  font-size: 1rem;
+  line-height: 1.6;
+  color: rgba(255, 255, 255, 0.9);
+  padding: 16px;
+  background: rgba(0, 0, 0, 0.3);
+  border-radius: 12px;
+  margin-bottom: 16px;
+}
+
+.modal-footer {
+  display: flex;
+  justify-content: space-between;
+  font-size: 0.75rem;
+  color: rgba(255, 255, 255, 0.5);
+}
+
+/* ============================================
+   HOVER LABEL
+   ============================================ */
+#hover-label {
+  position: fixed;
+  z-index: 500;
+  padding: 6px 12px;
+  background: rgba(0, 0, 0, 0.8);
+  border-radius: 8px;
+  font-size: 0.8rem;
+  color: #ffd700;
+  pointer-events: none;
+  transform: translate(-50%, -100%);
+  opacity: 1;
+  transition: opacity 0.25s ease;
+  white-space: nowrap;
+}
+
+#hover-label.hidden {
+  opacity: 0;
+}
+
+/* ============================================
+   MOBILE RESPONSIVE
+   ============================================ */
+@media (max-width: 768px) {
+  #header {
+    width: calc(100% - 40px);
+    top: 10px;
+    padding: 12px 16px;
+  }
+
+  #header h1 {
+    font-size: 1.1rem;
+  }
+
+  #search-input {
+    width: 140px;
+  }
+
+  #yearfruit-panel {
+    top: 90px;
+    left: 10px;
+    padding: 8px 12px;
+  }
+
+  .yearfruit-apple {
+    font-size: 1.8rem;
+  }
+
+  #node-legend {
+    top: 160px;
+    left: 10px;
+    padding: 10px;
+    min-width: 120px;
+  }
+
+  #node-legend h3 {
+    font-size: 0.8rem;
+  }
+
+  .legend-item {
+    font-size: 0.7rem;
+  }
+
+  #composer-panel {
+    bottom: 10px;
+    left: 10px;
+    width: calc(50% - 15px);
+    max-width: 220px;
+    padding: 14px;
+  }
+
+  #composer-panel h3 {
+    font-size: 0.9rem;
+  }
+
+  #weather-panel {
+    bottom: 10px;
+    right: 10px;
+    padding: 10px;
+  }
+
+  #weather-panel h3 {
+    font-size: 0.8rem;
+  }
+
+  .weather-btn {
+    width: 32px;
+    height: 32px;
+    font-size: 1.1rem;
+  }
+}
+
+@media (max-width: 480px) {
+  #node-legend {
+    display: none;
+  }
+
+  #composer-panel {
+    width: calc(100% - 20px);
+    max-width: none;
+    left: 10px;
+    bottom: 70px;
+  }
+
+  #weather-panel {
+    bottom: 10px;
+    left: 50%;
+    right: auto;
+    transform: translateX(-50%);
+  }
+}
+
+/* ============================================
+   ANIMATIONS
+   ============================================ */
+@keyframes pulse-glow {
+  0%, 100% { opacity: 1; }
+  50% { opacity: 0.7; }
+}
+
+@keyframes float {
+  0%, 100% { transform: translateY(0); }
+  50% { transform: translateY(-5px); }
+}
+
+/* Smooth transitions for all interactive elements */
+button, input, select, textarea {
+  transition: all 0.3s ease;
+}
