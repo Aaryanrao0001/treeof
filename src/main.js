@@ -1,6 +1,7 @@
 /**
  * main.js - Entry Point
  * Infinite Messaging Tree - A living, magical, ever-expanding digital organism
+ * Messages appear as glowing inscriptions ON tree parts (not separate objects)
  */
 
 import * as THREE from 'three';
@@ -18,7 +19,6 @@ import { Composer } from './ui/Composer.js';
 import { Modal } from './ui/Modal.js';
 import { Search } from './ui/Search.js';
 import { WeatherUI } from './ui/WeatherUI.js';
-import { Yearfruit } from './ui/Yearfruit.js';
 
 // Utilities
 import { getAllMessages } from './utils/storage.js';
@@ -119,9 +119,6 @@ class InfiniteMessagingTree {
     // Weather controls
     this.weatherUI = new WeatherUI(this.weather, this.environment, this.postProcessing);
     
-    // Yearfruit display
-    this.yearfruit = new Yearfruit();
-    
     // Hover label element
     this.hoverLabel = document.getElementById('hover-label');
   }
@@ -142,9 +139,6 @@ class InfiniteMessagingTree {
   onNewMessage(message) {
     // Add node to scene
     this.nodeSystem.addNode(message);
-    
-    // Update yearfruit display
-    this.yearfruit.update();
     
     console.log('New message created:', message.message_id);
   }

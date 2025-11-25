@@ -1,9 +1,10 @@
 /**
  * Composer.js - Message Input Panel
  * Handles the composition and submission of new messages
+ * Simplified: Just name + message (no emotion system)
  */
 
-import { generateMessageId, getNodePosition } from '../utils/hash.js';
+import { generateMessageId, getMessagePlacement } from '../utils/hash.js';
 import { saveMessage } from '../utils/storage.js';
 
 export class Composer {
@@ -11,7 +12,6 @@ export class Composer {
     this.onMessageSubmit = onMessageSubmit;
     
     this.nameInput = document.getElementById('composer-name');
-    this.emotionSelect = document.getElementById('composer-emotion');
     this.messageTextarea = document.getElementById('composer-message');
     this.submitButton = document.getElementById('composer-submit');
     
@@ -34,8 +34,6 @@ export class Composer {
     // Visual feedback on input
     this.nameInput.addEventListener('focus', () => this.addFocusGlow(this.nameInput));
     this.nameInput.addEventListener('blur', () => this.removeFocusGlow(this.nameInput));
-    this.emotionSelect.addEventListener('focus', () => this.addFocusGlow(this.emotionSelect));
-    this.emotionSelect.addEventListener('blur', () => this.removeFocusGlow(this.emotionSelect));
     this.messageTextarea.addEventListener('focus', () => this.addFocusGlow(this.messageTextarea));
     this.messageTextarea.addEventListener('blur', () => this.removeFocusGlow(this.messageTextarea));
   }
@@ -45,7 +43,6 @@ export class Composer {
    */
   handleSubmit() {
     const userName = this.nameInput.value.trim();
-    const emotion = this.emotionSelect.value;
     const messageText = this.messageTextarea.value.trim();
     
     // Validation
@@ -59,18 +56,19 @@ export class Composer {
       return;
     }
     
-    // Generate message object
+    // Generate message object with tree placement
     const messageId = generateMessageId();
     const timestamp = new Date().toISOString();
-    const nodePosition = getNodePosition(userName, messageId);
+    const placement = getMessagePlacement(userName, messageId);
     
     const message = {
       message_id: messageId,
       userName,
       message: messageText,
-      emotion,
       timestamp,
-      node_position: nodePosition
+      treePart: placement.treePart,
+      position: placement.position,
+      glowIntensity: placement.glowIntensity
     };
     
     // Save to localStorage

@@ -1,18 +1,17 @@
 /**
  * Modal.js - Message Detail Modal
  * Displays full message details when a node is clicked
+ * Shows message location on tree (trunk/branch/leaf/root)
  */
-
-import { EMOTION_CONFIG } from '../scene/Nodes.js';
 
 export class Modal {
   constructor() {
     this.modal = document.getElementById('message-modal');
     this.username = document.getElementById('modal-username');
-    this.emotion = document.getElementById('modal-emotion');
     this.message = document.getElementById('modal-message');
     this.timestamp = document.getElementById('modal-timestamp');
     this.messageId = document.getElementById('modal-id');
+    this.location = document.getElementById('modal-location');
     this.closeButton = this.modal.querySelector('.modal-close');
     
     this.setupEventListeners();
@@ -50,9 +49,9 @@ export class Modal {
     this.timestamp.textContent = this.formatTimestamp(message.timestamp);
     this.messageId.textContent = `ID: ${message.message_id}`;
     
-    // Set emotion badge
-    this.emotion.textContent = this.capitalizeFirst(message.emotion);
-    this.setEmotionStyle(message.emotion);
+    // Show tree location
+    const treePart = message.treePart || 'trunk';
+    this.location.textContent = `Location: ${this.formatTreePart(treePart)}`;
     
     // Show modal with animation
     this.modal.classList.remove('hidden');
@@ -84,23 +83,16 @@ export class Modal {
   }
   
   /**
-   * Capitalize first letter
+   * Format tree part name for display
    */
-  capitalizeFirst(str) {
-    return str.charAt(0).toUpperCase() + str.slice(1);
-  }
-  
-  /**
-   * Set emotion-specific styling for badge
-   */
-  setEmotionStyle(emotion) {
-    const config = EMOTION_CONFIG[emotion];
-    if (config) {
-      const colorHex = '#' + config.color.toString(16).padStart(6, '0');
-      this.emotion.style.background = `${colorHex}33`; // 20% opacity
-      this.emotion.style.color = colorHex;
-      this.emotion.style.borderColor = colorHex;
-    }
+  formatTreePart(treePart) {
+    const partNames = {
+      trunk: '🌳 Trunk Bark',
+      branch: '🌿 Branch',
+      leaf: '🍃 Leaf',
+      root: '🌱 Root'
+    };
+    return partNames[treePart] || treePart;
   }
   
   /**
