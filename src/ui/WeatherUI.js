@@ -1,6 +1,6 @@
 /**
  * WeatherUI.js - Weather Controls Panel
- * Handles weather selection (simplified, no auto-weather)
+ * Handles weather selection with simplified UI (no auto-weather)
  */
 
 import { getSettings, saveSettings } from '../utils/storage.js';

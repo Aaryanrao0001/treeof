@@ -135,44 +135,49 @@ export class NodeSystem {
    * Add a new message inscription to the scene
    */
   addNode(message) {
-    const { message_id, userName, treePart, position, glowIntensity } = message;
+    const { message_id, userName } = message;
     
     // Skip if node already exists
     if (this.meshes.has(message_id)) return;
     
-    // Get or calculate placement
-    const placement = position ? { position, treePart, glowIntensity } 
-      : getMessagePlacement(userName, message_id);
+    // Get placement - use existing values or calculate new ones
+    const treePart = message.treePart || getMessagePlacement(userName, message_id).treePart;
+    const position = message.position || getMessagePlacement(userName, message_id).position;
+    const glowIntensity = message.glowIntensity || getMessagePlacement(userName, message_id).glowIntensity;
     
-    const part = treePart || placement.treePart;
-    const pos = position || placement.position;
-    const intensity = glowIntensity || placement.glowIntensity;
+    // Create enriched message with tree part info
+    const enrichedMessage = {
+      ...message,
+      treePart,
+      position,
+      glowIntensity
+    };
     
     // Create geometry and material
-    const geometry = this.createGeometry(part);
-    const material = this.createMaterial(intensity);
+    const geometry = this.createGeometry(treePart);
+    const material = this.createMaterial(glowIntensity);
     
     // Set birth time for animation
     material.uniforms.birthTime.value = this.time;
     
     // Create mesh
     const mesh = new THREE.Mesh(geometry, material);
-    mesh.position.set(pos.x, pos.y, pos.z);
+    mesh.position.set(position.x, position.y, position.z);
     mesh.userData = { 
       messageId: message_id, 
-      message: { ...message, treePart: part },
-      originalPosition: { ...pos },
+      message: enrichedMessage,
+      originalPosition: { ...position },
       swayPhase: Math.random() * Math.PI * 2,
       swayAmplitude: 0.01 + Math.random() * 0.02
     };
     
     // Add subtle point light for glow effect
-    const glow = new THREE.PointLight(MESSAGE_CONFIG.emissive, intensity * 0.3, 2);
+    const glow = new THREE.PointLight(MESSAGE_CONFIG.emissive, glowIntensity * 0.3, 2);
     mesh.add(glow);
     
     this.scene.add(mesh);
     this.meshes.set(message_id, mesh);
-    this.nodes.set(message_id, { ...message, treePart: part });
+    this.nodes.set(message_id, enrichedMessage);
     
     // Birth animation
     this.animateBirth(mesh);

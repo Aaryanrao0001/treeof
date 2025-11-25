@@ -4,6 +4,8 @@
  * Shows message location on tree (trunk/branch/leaf/root)
  */
 
+import { DEFAULT_TREE_PART } from '../utils/hash.js';
+
 export class Modal {
   constructor() {
     this.modal = document.getElementById('message-modal');
@@ -50,7 +52,7 @@ export class Modal {
     this.messageId.textContent = `ID: ${message.message_id}`;
     
     // Show tree location
-    const treePart = message.treePart || 'trunk';
+    const treePart = message.treePart || DEFAULT_TREE_PART;
     this.location.textContent = `Location: ${this.formatTreePart(treePart)}`;
     
     // Show modal with animation

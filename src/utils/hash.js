@@ -36,6 +36,9 @@ export function seededRandom(seed) {
  */
 const TREE_PARTS = ['trunk', 'branch', 'leaf', 'root'];
 
+/** Default tree part for fallback */
+export const DEFAULT_TREE_PART = 'trunk';
+
 /**
  * Get deterministic message placement on tree
  * Messages are placed ON tree geometry, not as separate objects
@@ -119,7 +122,7 @@ function getPositionForTreePart(treePart, rand, seed) {
 
 /**
  * Generate deterministic 3D position for a message node
- * Positions are distributed on and around the tree canopy
+ * @deprecated Use getMessagePlacement() instead for full placement info
  * @param {string} userName - User's name
  * @param {string} messageId - Unique message identifier
  * @returns {{x: number, y: number, z: number}} - 3D position
